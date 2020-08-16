@@ -127,10 +127,10 @@ div.chooseImage input#uploadFile:hover {
 }
 
 div.container {
-	border-top:none;
+	/* border-top:none;
 	border-bottom:1px solid silver;
 	border-left:1px solid silver;
-	border-right:1px solid silver;
+	border-right:1px solid silver; */
 }
 
 textarea#editor {

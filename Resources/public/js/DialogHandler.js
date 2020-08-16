@@ -65,6 +65,9 @@ function DialogHandler() {
       }
     });
 
+    uiMessage.prev().find('button').append('<i class="fas fa-times" style="transform: translate(0%, -20%);"></i>');
+    
     uiMessage.dialog('moveToTop');
+
   }
 }

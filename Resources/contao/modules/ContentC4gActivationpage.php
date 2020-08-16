@@ -45,7 +45,7 @@ class ContentC4gActivationpage extends \Module
             return $objTemplate->parse();
         }
 
-        return parent::generate();
+        // return parent::generate();
     }
 
     /**

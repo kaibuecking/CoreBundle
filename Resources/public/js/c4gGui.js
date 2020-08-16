@@ -115,7 +115,7 @@ this.c4g.projects = this.c4g.projects || {};
         // add Buttons Area
         scope.buttonDiv = $('<div />')
           .attr('id', 'c4gGuiButtons'+options.id)
-          .attr('class', 'c4gGuiButtons')
+          .attr('class', 'c4gGuiButtons pb-3 pt-0 ')
           .appendTo($(this));
         $(scope.buttonDiv).hide();
 
@@ -499,8 +499,10 @@ this.c4g.projects = this.c4g.projects || {};
         $(scope.buttonDiv).hide();
         $.each(content.buttons, function (index, value) {
           var aButton = $("<a />")
-            .attr('href', '#')
+            .attr('tabindex', '0')
+            .attr('class', 'btn btn-primary btn-sm mr-1 mb-1')
             .attr('accesskey', value['accesskey'])
+            .css('cursor', 'pointer')
             .html(value['text'])
             .click(function () {
               if (value['tableSelection']) {
@@ -521,6 +523,14 @@ this.c4g.projects = this.c4g.projects || {};
               return false;
             })
             .appendTo(scope.buttonDiv);
+          if(value['text'] === 'Neues Thema') {
+            aButton.attr('id', 'newthreadbtn');
+            setTimeout(() => {
+              $("#newthreadbtn").click(function() {
+                fnExecAjaxGet(options.ajaxData + '/' + value['id']);
+              });
+            }, 1000);
+          }
           if (options.jquiButtons) {
             aButton.button();
           }
@@ -860,6 +870,8 @@ this.c4g.projects = this.c4g.projects || {};
         if (typeof(content.precontent) !== 'undefined') {
           $(scope.contentDiv).prepend(
             $('<div />').attr('class', 'c4gGuiPreContent').html(content.precontent));
+
+          $('.c4gGuiPreContent').after($(scope.buttonDiv));
         }
 
         if (typeof(content.postcontent) !== 'undefined') {
@@ -1052,7 +1064,7 @@ this.c4g.projects = this.c4g.projects || {};
             if (typeof(dialogoptions.title) !== 'undefined') {
               var titleDiv;
               if (options.jquiEmbeddedDialogs) {
-                titleDiv = $('<div>').attr('class', 'c4gGuiDialogTitle c4gGuiDialogTitleJqui ui-widget ui-widget-header ui-corner-all');
+                titleDiv = $('<div>').attr('class', 'c4gGuiDialogTitle c4gGuiDialogTitleJqui ui-widget ui-widget-header ui-corner-all bg-primary text-white border border-primary');
                 titleDiv.html(dialogoptions.title);
               } else {
                 titleDiv = $('<div>')
@@ -1070,13 +1082,29 @@ this.c4g.projects = this.c4g.projects || {};
             }
             var dialogButtonDiv = $('<div>').attr('class', buttonDivClass);
             $.each(dialogoptions.buttons, function (index, value) {
-              var aLink = $('<a>')
+              var aLink = $('<button>') //sensique
                 .attr('href', '#')
                 .attr('accesskey', value.accesskey)
-                .attr('class', value.cssClass)
+                .attr('class', value.cssClass) 
+                .attr('class', 'btn btn-primary btn-sm mr-1') //sensique
                 .html(value.text)
-                .click(value.click)
-                .appendTo(dialogButtonDiv);
+                .click(value.click);
+
+              if(value.text === 'Speichern') {
+                aLink.click(function() {
+                  if($('#c4gGuiDialognewthread').length > 0 && $('input.formdata.ui-corner-all').val().length > 0 && CKEDITOR.instances.ckeditor.getData().length > 0) {
+                    $(this).attr("disabled", "disabled");
+                    return;
+                  }
+                  if(CKEDITOR.instances.ckeditor.getData().length > 0) {
+                    $(this).attr("disabled", "disabled");
+                  }
+                });
+              }
+
+              if(value.text != 'Vorschau') {
+                aLink.appendTo(dialogButtonDiv);
+              }
               if (options.jquiEmbeddedDialogs) {
                 aLink.button();
               }

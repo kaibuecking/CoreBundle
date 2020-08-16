@@ -8,7 +8,7 @@ ini_set("display_errors","1");
 //        require_once($sRootPath . "system/initialize.php");
         $initialize = $_SERVER["DOCUMENT_ROOT"] . '/../system/initialize.php';
         if (!file_exists($initialize)) {
-            $initialize = '../../../system/initialize.php';
+            $initialize = '../../../../../../system/initialize.php';
         }
 
         // Initialize the system
@@ -41,7 +41,8 @@ ini_set("display_errors","1");
             $sUploadPath = \Config::get("uploadPath");
             $sUploadDir  = "/" . $sUploadPath . "/uploads/";
         } else {
-            $sUploadDir = "/" . $sConfigUploadPath;
+            // $sUploadDir = "/" . $sConfigUploadPath;
+            $sUploadDir = "/files/uploads/images/";
         }
 
         // add subfolder
@@ -139,6 +140,7 @@ ini_set("display_errors","1");
                     $url     = $site . $path.$sUploadDir . $img_name;
                     $message = sprintf($GLOBALS['TL_LANG']['MSC']['C4G_ERROR']['image_upload_successful'], $real_name, number_format($_FILES['upload']['size'] / 1024, 3, '.', ''), $width, $height);
                     $sReturn = "window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$message')";
+                    echo $url;
                 } else {
                     $sReturn = "window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '', '" . $GLOBALS['TL_LANG']['MSC']['C4G_ERROR']['image_upload_error'] . "')";
                 }
@@ -163,4 +165,4 @@ ini_set("display_errors","1");
     } catch (Exception $e) {
 
     }
-    echo "<script>$sReturn;</script>";
+    // echo "<script>$sReturn;</script>";
