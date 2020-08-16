@@ -18,7 +18,7 @@ ini_set("display_errors","1");
 //        require_once($sRootPath . "system/initialize.php");
         $initialize = $_SERVER["DOCUMENT_ROOT"] . '/../system/initialize.php';
         if (!file_exists($initialize)) {
-            $initialize = '../../../system/initialize.php';
+            $initialize = '../../../../../../system/initialize.php';
         }
 
         // Initialize the system
@@ -47,12 +47,13 @@ ini_set("display_errors","1");
         $sSubfolder        = date("Y-m-d");
 
         //if not configured, use fallbackpath
-        if (empty($sConfigUploadPath)) {
-            $sUploadPath = \Config::get("uploadPath");
-            $sUploadDir  = "/" . $sUploadPath . "/uploads/";
-        } else {
-            $sUploadDir = "/" . $sConfigUploadPath;
-        }
+        // if (empty($sConfigUploadPath)) {
+        //     $sUploadPath = \Config::get("uploadPath");
+        //     $sUploadDir  = "/" . $sUploadPath . "/uploads/";
+        // } else {
+        //      $sUploadDir = "/" . $sConfigUploadPath;
+            $sUploadDir = "/files/uploads/images/";
+        // }
 
         // add subfolder
         $sUploadDir = $sUploadDir . $sSubfolder;
@@ -146,9 +147,10 @@ ini_set("display_errors","1");
             // If no errors, upload the image, else, output the errors
             if ($err == '') {
                 if (move_uploaded_file($_FILES['upload']['tmp_name'], $uploadpath)) {
-                    $url     = $site . $path.$sUploadDir . $img_name;
+                    $url     = $sUploadDir . '/' . $img_name;
                     $message = sprintf($GLOBALS['TL_LANG']['MSC']['C4G_ERROR']['image_upload_successful'], $real_name, number_format($_FILES['upload']['size'] / 1024, 3, '.', ''), $width, $height);
                     $sReturn = "window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$message')";
+                    echo $url;
                 } else {
                     $sReturn = "window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '', '" . $GLOBALS['TL_LANG']['MSC']['C4G_ERROR']['image_upload_error'] . "')";
                 }
@@ -173,4 +175,4 @@ ini_set("display_errors","1");
     } catch (Exception $e) {
 
     }
-    echo "<script>$sReturn;</script>";
+    // echo "<script>$sReturn;</script>";
