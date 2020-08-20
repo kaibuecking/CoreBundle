@@ -41,8 +41,8 @@ ini_set("display_errors","1");
             $sUploadPath = \Config::get("uploadPath");
             $sUploadDir  = "/" . $sUploadPath . "/uploads/";
         } else {
-            // $sUploadDir = "/" . $sConfigUploadPath;
-            $sUploadDir = "/files/uploads/images/";
+             $sUploadDir = "/" . $sConfigUploadPath;
+            //$sUploadDir = "/files/uploads/images/";
         }
 
         // add subfolder
@@ -137,7 +137,7 @@ ini_set("display_errors","1");
             // If no errors, upload the image, else, output the errors
             if ($err == '') {
                 if (move_uploaded_file($_FILES['upload']['tmp_name'], $uploadpath)) {
-                    $url     = $site . $path.$sUploadDir . $img_name;
+                    $url     = '/' . $img_name;
                     $message = sprintf($GLOBALS['TL_LANG']['MSC']['C4G_ERROR']['image_upload_successful'], $real_name, number_format($_FILES['upload']['size'] / 1024, 3, '.', ''), $width, $height);
                     $sReturn = "window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$message')";
                     echo $url;
