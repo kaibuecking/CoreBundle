@@ -15,11 +15,11 @@ ini_set("display_errors","1");
         require_once($initialize);
 
         // User not logged in...
-        if (!FE_USER_LOGGED_IN) {
-            header('HTTP/1.0 403 Forbidden');
-            echo "Forbidden";
-            die();
-        }
+        // if (!FE_USER_LOGGED_IN) {
+        //     header('HTTP/1.0 403 Forbidden');
+        //     echo "Forbidden";
+        //     die();
+        // }
 
 
         \System::loadLanguageFile("default");
