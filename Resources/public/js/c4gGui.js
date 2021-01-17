@@ -1090,18 +1090,6 @@ this.c4g.projects = this.c4g.projects || {};
                 .html(value.text)
                 .click(value.click);
 
-              if(value.text === 'Speichern') {
-                aLink.click(function() {
-                  if($('#c4gGuiDialognewthread').length > 0 && $('input.formdata.ui-corner-all').val().length > 0 && CKEDITOR.instances.ckeditor.getData().length > 0) {
-                    $(this).attr("disabled", "disabled");
-                    return;
-                  }
-                  if(CKEDITOR.instances.ckeditor.getData().length > 0) {
-                    $(this).attr("disabled", "disabled");
-                  }
-                });
-              }
-
               if(value.text != 'Vorschau') {
                 aLink.appendTo(dialogButtonDiv);
               }
