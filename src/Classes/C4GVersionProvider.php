@@ -57,7 +57,11 @@ class C4GVersionProvider
         $arrJson = json_decode($json, true);
         $intError = json_last_error();
         if ($intError === JSON_ERROR_NONE) {
-            $candidates = array_keys($arrJson['packages'][$package]);
+            if (isset($arrJson['packages'][$package]) && is_array($arrJson['packages'][$package])) {
+                $candidates = array_keys($arrJson['packages'][$package]);
+            } else {
+                $candidates = [];
+            }
             $currentLatestVersion = '';
             foreach ($candidates as $candidate) {
                 // ignore dev branches
