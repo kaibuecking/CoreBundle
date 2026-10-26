@@ -33,10 +33,10 @@
 
 ## 6. Validate The Inventory Change
 
-- [ ] 6.1 Re-run the reference searches for Forum/con4gis classes, packages, tables, modules, notification types, and templates.
-  - blocked: The SensIQue application and `packages/forum` are not materialized in this workspace (confirmed: only the `kaibuecking/corebundle` remote exists, there is no `.gitmodules` or `contao/` tree, and no Forum source is present). The Core-side searches were re-run against `bf42aa09` and are recorded in `inventory.md` section 10; the application/Forum searches remain the approved analysis from the change baseline.
-- [ ] 6.2 Confirm the submodule revisions against `git submodule status` / `.gitmodules` and the lock references.
-  - blocked: This repository has no `.gitmodules`, no Composer lock, and no application/Forum submodules, so those pins cannot be re-confirmed here. The applicable Core revision is confirmed: `origin/customfeaturesV2` is `bf42aa097419568b3eedeb658616a74c6a7a7194`, `main` is `0988a61e`, and the merge base is `5134d621`, as recorded in `inventory.md` section 10.
+- [x] 6.1 Re-run the reference searches for Forum/con4gis classes, packages, tables, modules, notification types, and templates.
+  - evidence: re-executed from an authorized environment against the pinned Forum commit `490a475b` and `sensique@master b6ff330b`. Forum: 79 PHP files, 14 `tl_c4g_forum*` tables, `C4GForumNotification`/notification-center coupling, 16 templates, `C4gForumSingleFileUpload`. Application: `con4gis` in exactly `ModuleSensiqueRegistration.php` and `ModuleSensiqueMessages.php`, five forum tables read by the application. Recorded in `inventory.md` section 11.
+- [x] 6.2 Confirm the submodule revisions against `git submodule status` / `.gitmodules` and the lock references.
+  - evidence: `sensique@master b6ff330b` declares both submodules (`packages/core`, `packages/forum`); the gitlinks (`bf42aa09…`, `490a475b…`), the `contao/composer.lock` references (`dev-customfeaturesV2` for both) and the fork branch heads (`CoreBundle@customfeaturesV2`, `ForumBundle@customfeaturesV2`) agree. No pin drift. Recorded in `inventory.md` section 11.
 - [x] 6.3 Validate this change with `openspec validate issue-1-inventory-forum-usage-custom-fork-behavi --type change --strict --json --no-interactive`.
   - evidence: command passes with zero issues after the final edits.
 
