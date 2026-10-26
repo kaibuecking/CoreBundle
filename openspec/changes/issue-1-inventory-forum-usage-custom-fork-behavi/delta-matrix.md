@@ -59,6 +59,13 @@ Classification vocabulary: `retain`, `upstreamed`, `obsolete`, `relocate`. A com
 | 2 | `634ba637` | 2022-09-27 | Sensique modifications | Adds close icon in `DialogHandler.js`; hardcodes `imgUpload.php` upload path to `/files/uploads/images/`, changes relative initialize path, returns only URL, suppresses script output | `relocate` | #4 application asset/upload ownership; drop if editor no longer uses legacy uploader |
 | 3 | `bf42aa09` | 2024-12-15 | fix: php8 errors | Guards `C4GVersionProvider` against missing `packages[package]` | `retain` (verify upstream) | #3/#4; keep only if relevant after 5.x core alignment |
 
+### Per-Hunk Split of `634ba637` (“Sensique modifications”)
+
+| Hunk | Behavior | Class | Target / note |
+| --- | --- | --- | --- |
+| `src/Resources/public/src/js/DialogHandler.js` | Appends a Font Awesome close icon to the dialog button | `relocate` | #4 application asset override; drop if the upstream dialog already provides the affordance |
+| `src/Resources/public/vendor/imgUpload.php` | Hardcodes `/files/uploads/images/`, changes the relative initialize path, returns only the URL, and suppresses the script output; the file also reads the forum editor session keys `c4g_forum_bbcodes_editor_*` | `relocate` | #4 application uploader ownership; verify the legacy CKEditor/forum-BBCode uploader is still used before porting |
+
 ## Upstream `v5.0.6` Delta Status
 
 | Question | Status | Evidence |

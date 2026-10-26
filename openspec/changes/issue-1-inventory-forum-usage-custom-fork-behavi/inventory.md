@@ -147,9 +147,18 @@ Customized behavior to verify: `forum:src/Resources/contao/models/C4gForumPn.php
 | Subjects `Willkommensnachricht`, `Neues Mitglied` | `ModuleSensiqueMessages.php`, `ModuleSensiqueRegistration.php` | Special message rendering and template assumptions |
 | Upload folder `/files/uploads/images/` | `core:src/Resources/public/vendor/imgUpload.php` after `634ba637` | Legacy editor uploads may bypass Contao file registry |
 | Avatar folder `files/userimages/user_<id>` | `forum:src/Resources/contao/dca/tl_member.php`, `Avatar.php` | Avatar files and `tl_member.memberImage` must stay aligned |
+| Member group ID `6` | `contao/templates/mod_login.html5` (`isMemberOf(6)`); member DCA `groups` palette | Member/invoice administration links and permission checks break if the group ID changes |
 
 ## 9. Groups/Projects Boundary
 
 - `con4gis/groups`: Forum uses `MemberModel` in `ProfilePageModuleController` and bundle load order.
 - `con4gis/projects`: Forum uses `C4GNotification` as the Notification Center base class and `C4GJQueryGUI` in the PM module, forum module, and breadcrumb.
 - The application does not call Groups/Projects directly. A forum port that drops those requirements must replace these behaviors or keep the dependencies; that is a #3 decision, not an inventory assumption.
+
+## 10. Validation Evidence And Reproducibility Boundary
+
+- `openspec validate issue-1-inventory-forum-usage-custom-fork-behavi --type change --strict --json --no-interactive` passes with zero issues.
+- The writable repository materialized for this change is the Core fork `kaibuecking/corebundle`, not the SensIQue application. Its `origin/customfeaturesV2` is `bf42aa097419568b3eedeb658616a74c6a7a7194`, `main` is `0988a61e`, and the merge base is `5134d621db4ae0caa4ec0c39f72cb7ae04817f90`. Exactly three non-merge commits exist beyond `main`: `e734e471`, `634ba637`, `bf42aa09`. Re-reading those diffs confirms the Core rows in `delta-matrix.md`: package rename, dialog/uploader changes, and the version-provider guard.
+- A re-run of the Forum/con4gis reference searches against `bf42aa09` finds no Forum bundle classes (`C4GForum`), notification types (`con4gis Forum`), PN endpoints (`forumPnService`), or `tl_c4g_forum*` tables under `src/`. The only Forum-related code coupling is the legacy editor session keys `c4g_forum_bbcodes_editor_*` read by `src/Resources/public/vendor/imgUpload.php` and `src/Classes/C4GFileUpload.php`, which is the uploader coupling already classified `relocate` in `delta-matrix.md`. `src/Resources/public/images/be-icons/forum_c4g.svg` is an unrelated icon. This confirms the Core-fork boundary in section 9 and the uploader dependency noted in section 8.
+- The SensIQue application and `packages/forum` are not present in this writable repository, so their reference searches, submodule pins, lock entries, and `.gitmodules` evidence cannot be re-executed here. Those entries are the approved baseline analysis in sections 1–9; re-confirmation is tracked as blocked in `tasks.md` items 6.1, 6.2, and 7.1, with the operator procedures in `data-inventory-checklist.md` and `known-unknowns.md`.
+- No production records, exports, filenames, credentials, database dumps, or attachment files are included in this change.

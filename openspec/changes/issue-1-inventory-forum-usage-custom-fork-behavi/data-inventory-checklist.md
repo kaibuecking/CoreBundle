@@ -147,7 +147,8 @@ LEFT JOIN tl_member m ON m.id = r.member;
 ```
 
 - [ ] Record counts and whether each category is zero or non-zero.
-- [ ] Compare thread-subscription orphans with what `deleteUnreferencedSubscriptionsCron` would remove; do not run the cron on the restored copy without approval.
+- [ ] Interpret each non-zero orphan category as a #4 data decision (repair, archive, or delete after owner approval); do not execute destructive changes in this inventory.
+- [ ] Compare thread-subscription orphans with what `deleteUnreferencedSubscriptionsCron` would remove; do not run the cron on the restored copy without approval. Rows in `tl_c4g_forum_thread_subscription` whose `member` is missing are the ones that cron removes; orphaned threads, posts, PNs, uploads, and reactions have no automatic cleanup and require an explicit decision.
 
 ## 4. Subscriptions and Thread State
 

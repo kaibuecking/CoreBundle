@@ -14,6 +14,7 @@
 - The application already owns Forum presentation overrides (`forum_user_data.html5`, `mod_c4g_forum.html5`, `forum.css`, `forum.js`) and member/navigation templates.
 - The application contains hard-coded forum category IDs, thread IDs, sender ID, and PN subjects.
 - No production data, attachment files, credentials, or personal information were read or copied into this change.
+- The writable repository materialized for this change is the Core fork `kaibuecking/corebundle` (`origin/customfeaturesV2` = `bf42aa09`; `main` = `0988a61e`). The SensIQue application and `packages/forum` are not present in it, so their evidence is the approved baseline analysis in `inventory.md`/`delta-matrix.md` and can only be re-verified in an authorized environment.
 
 ## Assumptions
 
@@ -64,6 +65,7 @@ The unknowns are sufficiently resolved for #3/#4 when:
 
 - U1 has an evidence-based per-commit upstream classification.
 - U2–U4 and U7 have aggregate results recorded outside Git.
-- U5 and U9 are confirmed by the product owner.
-- D1–D5 and D8 are decided and recorded in the follow-up change.
+- U5, U8, U9, and U11 are resolved with recorded product-owner or backend-maintainer evidence.
+- U6 and U10 are resolved or explicitly accepted as non-blocking with the reason recorded.
+- D1–D10 are decided and recorded in the follow-up change.
 - No production data, credentials, or attachment files have entered the repository.

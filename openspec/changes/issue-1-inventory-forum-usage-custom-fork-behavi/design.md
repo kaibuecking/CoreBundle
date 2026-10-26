@@ -82,7 +82,7 @@ This keeps the future change reviewable and prevents data operations from being 
 ## Migration Plan (Follow-up, Not This Change)
 
 1. In an authorized environment, fetch upstream `v5.0.6` and complete the upstream side of `delta-matrix.md`.
-2. Resolve decisions D1–D8 in `known-unknowns.md` with the named owners.
+2. Resolve decisions D1–D10 in `known-unknowns.md` with the named owners.
 3. Port only retained #3 items onto a new branch based on `v5.0.6`; move presentation and application integration to #4.
 4. Run the operator-safe checks against a restored/anonymized database and record only aggregate results.
 5. Validate the port in a staging environment with representative, non-production data before any production cutover.
