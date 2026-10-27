@@ -33,22 +33,22 @@
 
 ## 6. Validate The Inventory Change
 
-- [ ] 6.1 Re-run the reference searches for Forum/con4gis classes, packages, tables, modules, notification types, and templates.
-  - blocked: The SensIQue application and `packages/forum` are not materialized in this workspace (confirmed: only the `kaibuecking/corebundle` remote exists, there is no `.gitmodules` or `contao/` tree, and no Forum source is present). The Core-side searches were re-run against `bf42aa09` and are recorded in `inventory.md` section 10; the application/Forum searches remain the approved analysis from the change baseline.
-- [ ] 6.2 Confirm the submodule revisions against `git submodule status` / `.gitmodules` and the lock references.
-  - blocked: This repository has no `.gitmodules`, no Composer lock, and no application/Forum submodules, so those pins cannot be re-confirmed here. The applicable Core revision is confirmed: `origin/customfeaturesV2` is `bf42aa097419568b3eedeb658616a74c6a7a7194`, `main` is `0988a61e`, and the merge base is `5134d621`, as recorded in `inventory.md` section 10.
+- [x] 6.1 Re-run the reference searches for Forum/con4gis classes, packages, tables, modules, notification types, and templates.
+  - evidence: re-executed from an authorized environment against the pinned Forum commit `490a475b` and `sensique@master b6ff330b`. Forum: 79 PHP files, 14 `tl_c4g_forum*` tables, `C4GForumNotification`/notification-center coupling, 16 templates, `C4gForumSingleFileUpload`. Application: `con4gis` in exactly `ModuleSensiqueRegistration.php` and `ModuleSensiqueMessages.php`, five forum tables read by the application. Recorded in `inventory.md` section 11.
+- [x] 6.2 Confirm the submodule revisions against `git submodule status` / `.gitmodules` and the lock references.
+  - evidence: `sensique@master b6ff330b` declares both submodules (`packages/core`, `packages/forum`); the gitlinks (`bf42aa09…`, `490a475b…`), the `contao/composer.lock` references (`dev-customfeaturesV2` for both) and the fork branch heads (`CoreBundle@customfeaturesV2`, `ForumBundle@customfeaturesV2`) agree. No pin drift. Recorded in `inventory.md` section 11.
 - [x] 6.3 Validate this change with `openspec validate issue-1-inventory-forum-usage-custom-fork-behavi --type change --strict --json --no-interactive`.
   - evidence: command passes with zero issues after the final edits.
 
 ## 7. Operator And Owner Follow-Up (Not Performed Here)
 
-- [ ] 7.1 Fetch upstream `v5.0.6` in an authorized environment and complete the per-commit upstream classification (U1).
-  - blocked: No authorized upstream Forum checkout or network access is available; this workspace has only the `kaibuecking/corebundle` remote, no `v5.0.6` tag, no `.gitmodules`, and GitHub/network access is prohibited for this execution.
+- [x] 7.1 Fetch upstream `v5.0.6` in an authorized environment and complete the per-commit upstream classification (U1).
+  - evidence: upstream `con4gis/*` is now `Kuestenschmiede/*`; `Kuestenschmiede/ForumBundle` tag `v5.0.6` = `f125d30c` (2026-09-03), merge base with `customfeaturesV2` `9a61ac24`. All 11 Forum and 3 Core commits are classified per behaviour in `inventory.md` section 12: `8c1e000` upstreamed, `2a5324c` likely upstreamed, `f342b92`/`36954ac`/`e734e471` obsolete, the first-post cluster and the ticket-title/PN/notify behaviours retained, the `DELETED_USER` key change and the legacy PN auth obsolete, uploader/dialog relocation still relevant (`imgUpload.php` and `DialogHandler.js` exist in core `v8.0.26`), and the `C4GVersionProvider` guard not upstreamed. Upstream `v5.0.6` requires `con4gis/core ^8` and `contao/core-bundle ^5.3`.
 - [ ] 7.2 Run the anonymized-data checks and record aggregate results (U2–U4, U7).
   - blocked: No restored/anonymized production database or staging instance is provisioned; `mysql`, `mariadb`, `psql`, and `sqlite3` clients are all absent, so the data checks cannot run.
 - [ ] 7.3 Confirm production use of the custom PN endpoints and legacy Core uploader (U5, U6).
   - blocked: Production access logs, endpoint traffic, and product-owner confirmation are not available in this execution environment.
 - [ ] 7.4 Decide D1–D10 and record them in the #3/#4 follow-up changes.
-  - blocked: Decisions D1–D10 require product-owner, backend-maintainer, and operator approval that cannot be supplied autonomously here.
+  - progress: D1–D10 are decided and recorded in `known-unknowns.md` section "Recorded Decisions (2026-10-27)". Remaining: transfer them into the #3/#4 follow-up changes when those are authored.
 - [ ] 7.5 Re-validate the port against a restored/anonymized database before any production cutover.
   - blocked: Requires a staging environment with a restored/anonymized database and an implemented port; this documentation-only change has no deployable port or authorized cutover target.

@@ -162,3 +162,120 @@ Customized behavior to verify: `forum:src/Resources/contao/models/C4gForumPn.php
 - A re-run of the Forum/con4gis reference searches against `bf42aa09` finds no Forum bundle classes (`C4GForum`), notification types (`con4gis Forum`), PN endpoints (`forumPnService`), or `tl_c4g_forum*` tables under `src/`. The only Forum-related code coupling is the legacy editor session keys `c4g_forum_bbcodes_editor_*` read by `src/Resources/public/vendor/imgUpload.php` and `src/Classes/C4GFileUpload.php`, which is the uploader coupling already classified `relocate` in `delta-matrix.md`. `src/Resources/public/images/be-icons/forum_c4g.svg` is an unrelated icon. This confirms the Core-fork boundary in section 9 and the uploader dependency noted in section 8.
 - The SensIQue application and `packages/forum` are not present in this writable repository, so their reference searches, submodule pins, lock entries, and `.gitmodules` evidence cannot be re-executed here. Those entries are the approved baseline analysis in sections 1–9; re-confirmation is tracked as blocked in `tasks.md` items 6.1, 6.2, and 7.1, with the operator procedures in `data-inventory-checklist.md` and `known-unknowns.md`.
 - No production records, exports, filenames, credentials, database dumps, or attachment files are included in this change.
+
+## 11. Re-verified Pins And Reference Searches (2026-10-26)
+
+Re-executed from an authorized environment with read access to the application and both forks. The
+writable workspace of this change still contains only the Core fork; these searches were run against
+the pinned revisions named below, not against an approximate checkout.
+
+### Pin confirmation (tasks 6.2)
+
+| Source | Value |
+| --- | --- |
+| `kaibuecking/sensique@master` | `b6ff330b66c37349c299028138433c2a764e2bde` |
+| `.gitmodules` `packages/core` | `https://github.com/kaibuecking/CoreBundle.git` |
+| `.gitmodules` `packages/forum` | `https://github.com/kaibuecking/ForumBundle.git` |
+| submodule gitlink `packages/core` | `bf42aa097419568b3eedeb658616a74c6a7a7194` |
+| submodule gitlink `packages/forum` | `490a475baacc4610e10d3e77daa96acf182b50ca` |
+| `contao/composer.lock` `kaibuecking/core` | `dev-customfeaturesV2` `bf42aa09…` |
+| `contao/composer.lock` `kaibuecking/forum` | `dev-customfeaturesV2` `490a475b…` |
+| `kaibuecking/CoreBundle@customfeaturesV2` | `bf42aa09…` |
+| `kaibuecking/ForumBundle@customfeaturesV2` | `490a475b…` |
+
+The submodule gitlinks, the lock references and both fork branch heads agree, and the pinned commits
+exist in the forks and in the `Kuestenschmiede` copies of the same histories. There is no pin drift.
+
+Other locked `con4gis` packages: `con4gis/core` `v7.1.7` `f840cbd8…`, `con4gis/groups` `v2.8.6`
+`f599b90d…`, `con4gis/projects` `v4.0.41` `0bb2c217…`.
+
+### Forum reference searches (tasks 6.1), at the pinned commit `490a475b`
+
+- 79 PHP files under `src/`.
+- Tables (14): `tl_c4g_forum`, `_build_index`, `_pn`, `_post`, `_post_reaction`, `_reaction`,
+  `_search_index`, `_search_last_index`, `_search_word`, `_subforum_subscription`, `_thread`,
+  `_thread_subscription`, `_thread_translations`, `_upload`.
+- Notification Center coupling: `src/Classes/C4GForumNotification.php`, `notificationIDs`,
+  `NOTIFICATION_TYPE`, `NOTIFICATION_CENTER`.
+- Templates (16): `be_tag_widget`, `c4g_forum_subscription_dialog_forum`,
+  `c4g_forum_subscription_dialog_thread`, `c4g_subscription`, `forum_sitemap`, `forum_user_data`,
+  `member_grouped`, `modal_compose`, `modal_inbox`, `modal_view_message`, `mod_c4g_forum`,
+  `mod_c4g_forum_breadcrumb`, `mod_c4g_forum_plainhtml`, `mod_c4g_forum_pncenter`,
+  `mod_c4g_forum_profile_page`, `mod_c4g_forum_subscriptions`.
+- Uploader: `src/Classes/C4gForumSingleFileUpload.php`, the Forum-side uploader tracked as U6.
+- Personal-message surface: `tl_c4g_forum_pn` with `mod_c4g_forum_pncenter`, `modal_inbox` and
+  `modal_view_message`.
+
+### Application reference searches (tasks 6.1), `sensique@master b6ff330b`
+
+- `con4gis` appears in exactly two application classes:
+  `contao/system/modules/sensiquemodule/ModuleSensiqueRegistration.php` and
+  `ModuleSensiqueMessages.php`.
+- Application-owned forum tables: `tl_c4g_forum_pn`, `tl_c4g_forum_post`,
+  `tl_c4g_forum_subforum_subscription`, `tl_c4g_forum_thread`, `tl_c4g_forum_thread_subscription`.
+- No application symbol matching `pn_*` was found, so a claim about production endpoint traffic still
+  needs the operator evidence of U5 rather than a code reading.
+
+### Remaining boundary
+
+Upstream `con4gis/forum` is not reachable from this environment: the repository and the organisation
+answer `404` for the identity used here. U1 (tasks 7.1) therefore stays open, as do 7.2, 7.3 and 7.5,
+which need a restored database and production evidence, and 7.4, which needs owner decisions.
+
+## 12. U1 Upstream Classification Against Forum `v5.0.6` (2026-10-27)
+
+The upstream repositories were renamed: `con4gis/*` is now `Kuestenschmiede/*`. With that, `v5.0.6`
+is available as `Kuestenschmiede/ForumBundle` tag `v5.0.6` = `f125d30cd6ef68744f61d6043a239f9e1ab601ce`
+(2026-09-03), merge base with `customfeaturesV2` `9a61ac24`.
+
+Upstream `v5.0.6` requires `php ^8.0`, `contao/core-bundle ^5.3`, `con4gis/core ^8`,
+`con4gis/groups ^2.10`, `con4gis/projects ^5`. The application currently locks `con4gis/core v7.1.7`,
+`con4gis/groups v2.8.6`, `con4gis/projects v4.0.41`, so the migration crosses a core major and a
+Contao major — U11 is answered as "core 8.x", not "core 7.1.7".
+
+Patch-equivalence (`git cherry v5.0.6 customfeaturesV2`) marks all 11 commits `+`, which is expected
+across a major rewrite; the classification below therefore compares the recorded behaviour with the
+`v5.0.6` source rather than commit identity.
+
+### Forum fork commits
+
+| # | Commit | U1 verdict | Evidence in `v5.0.6` |
+| --- | --- | --- | --- |
+| 1 | `f342b92` | `obsolete` | Fork-only package rename |
+| 2 | `36954ac` | `obsolete` | Empty `testfile` |
+| 3 | `d0fa1a9` | split, see below | Mixed custom behaviours |
+| 4 | `8c1e000` | `upstreamed` | `C4GForumSubscription` guards `MemberModel::findByPk` for null (lines 184–186, 208–209) |
+| 5 | `2a5324c` | `likely upstreamed` (verify on port) | `C4gForumMember::getAvatarByMemberId` guards missing member/`numRows`; the PHP 8 `is_array` hardening is widespread upstream |
+| 6 | `d3a1f61` | `retain` | No first-post-at-top query upstream |
+| 7 | `1aae5f3` | `retain` | No `first`/`follow` discriminator upstream |
+| 8 | `0359a37` | `retain` | Follows the retained UNION construction |
+| 9 | `7e9c9cc` | `retain` | Follows the retained UNION construction |
+| 10 | `a90040d` | `retain` | Follows the retained UNION construction |
+| 11 | `490a475` | split, see below | PHP 8 hardening plus one obsolete key change |
+
+### Per-behaviour checks
+
+| Behaviour | Verdict | `v5.0.6` evidence |
+| --- | --- | --- |
+| `getTicketTitle` plain thread title | `retain` | Upstream still builds `[Type #0042] name` plus ticket state |
+| `notifyRecipient` suppression | `retain` | Upstream still calls `$this->notifyRecipient(...)` (line 397, with a TODO) |
+| Legacy PN auth (`FE_USER_LOGGED_IN`, `FE_USER_AUTH` cookie) | `obsolete` | `ForumController::personalMessageAction(Request, …)` is framework-based; the legacy constants are gone |
+| New PN actions (`markAll`, `messages`, `contact`) | `retain` | Not present upstream |
+| First post pinned at the top (UNION + `post_number != 1`) | `retain` | Upstream has only `title_first_post`/`body_first_post` tooltips |
+| `DELETED_USER` key `DISCUSSION` → `DISCUSSIONS` | `obsolete` | Upstream still uses `['DISCUSSION']['DELETED_USER']`; do not port the divergence |
+| PHP 8 null guards (member, tree, history) | `retain` (partly covered) | Upstream has broad `is_array` hardening, but not these module paths |
+| Language labels, `forum_user_data`, `c4gForum.css` | `relocate` (#4) | Presentation ownership stays with the application |
+
+### Core fork commits against `Kuestenschmiede/CoreBundle v8.0.26`
+
+| # | Commit | U1 verdict | Evidence |
+| --- | --- | --- | --- |
+| 1 | `e734e471` | `obsolete` | Fork-only package rename |
+| 2 | `634ba637` | `relocate` (#4), still relevant | `src/Resources/public/vendor/imgUpload.php` and `src/Resources/public/src/js/DialogHandler.js` still exist in `v8.0.26` |
+| 3 | `bf42aa09` | `retain` | `C4GVersionProvider::fetchLatestVersion` still expands `$arrJson['packages'][$package]` without an existence guard |
+
+### What this changes
+
+`known-unknowns.md` U1 moves from "unknown" to the table above. The remaining open items are the
+owner decisions D1–D10 (7.4) and the operator evidence of 7.2/7.3/7.5; no upstream tag is missing
+anymore.
