@@ -90,10 +90,10 @@ No bridge is approved for cron, the Contao-5-only Font Awesome Inserttag `2.2.3`
 
 ## Migration Plan (Follow-up, Not This Change)
 
-1. Apply only the approved 4.13 bridge upgrades in a dedicated branch; commit `contao/composer.json`, `contao/composer.lock`, and targeted template/config adjustments only.
+1. Apply only the approved 4.13 bridge upgrades in a dedicated branch (SensIQue#18); commit `contao/composer.json`, `contao/composer.lock`, and targeted template/config adjustments only.
 2. Build the image and run the bridge regression checks in staging.
 3. Hand the exact #8 constraints and data prerequisites to the platform-upgrade change.
-4. In #8, upgrade Contao, con4gis, NC, cron, Font Awesome Inserttag, Leads disposition, RockSolid, and Altcha together; run `contao:migrate`, data migrations, and the full smoke suite.
+4. In #8 (SensIQue#8), upgrade Contao, con4gis, NC, cron, Font Awesome Inserttag, Leads disposition, RockSolid, and Altcha together; run `contao:migrate`, data migrations, and the full smoke suite.
 5. Keep the previous image tag and a database/files snapshot for rollback.
 
 Rollback for this analysis change is trivial: revert the documentation change. No runtime or data state is touched.

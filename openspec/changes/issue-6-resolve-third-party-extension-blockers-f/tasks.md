@@ -39,22 +39,11 @@
 - [x] 4.5 Fix all ERROR findings and re-run validation until it passes.
 - [x] 4.6 Report the change directory and validation result.
 
-## 5. Follow-Up: Contao 4.13 Bridges (Separate Change)
+## 5. Follow-Ups Outside This Change
 
-- [ ] 5.1 Upgrade `terminal42/contao-fineuploader` to `3.5.5` and run the upload checks.
-- [ ] 5.2 Upgrade `netzmacht/contao-font-awesome-inserttag` to `2.2.1` and render all icon variants.
-- [ ] 5.3 Upgrade `madeyourday/contao-rocksolid-antispam` to `v2.1.3` and test legit/spam submits.
-- [ ] 5.4 Upgrade `madeyourday/contao-rocksolid-slider` to `v2.2.10` and render slider content.
-- [ ] 5.5 Conditionally upgrade `markocupic/contao-altcha-antispam` to `0.7.3` after config/markup review.
-- [ ] 5.6 Remove the `kartik-v/bootstrap-fileinput` Composer requirement and verify the checked-in asset.
+The implementation work derived from this analysis is tracked in separate, approved work items. Nothing in this section is a task of this analysis change.
 
-## 6. Follow-Up: Issue #8
+- **Contao 4.13 bridge upgrades** — SensIQue#18: fineuploader 3.5.5, Font Awesome inserttag 2.2.1, RockSolid anti-spam v2.1.3, RockSolid slider v2.2.10, conditional Altcha 0.7.3, and removal of the `kartik-v/bootstrap-fileinput` requirement.
+- **Contao 5 platform upgrade** — SensIQue#8: target versions, operator data checks, Leads disposition, Core-fork removal, cron migration, `contao:migrate`, Notification Center 1 → 2, full regression suite, and rollback proof, using `issue-8-handoff.md`, `migration-notes.md`, and `regression-rollback.md`.
 
-- [ ] 6.1 Re-verify target versions and upstream release notes with authorized access.
-- [ ] 6.2 Complete the operator data checks and decide Leads remove vs retain.
-- [ ] 6.3 Apply the Contao 5 / con4gis / NC 2 / cron / Font Awesome target set.
-- [ ] 6.4 Remove the Core fork and update Docker, compose, `.gitmodules`, and Forum fork mounts.
-- [ ] 6.5 Migrate the seven cron jobs off the legacy bootstrap.
-- [ ] 6.6 Run `contao:migrate`, NC 1 → 2 reconciliation, and Leads export/removal.
-- [ ] 6.7 Run the full retained-feature regression suite.
-- [ ] 6.8 Prove rollback to the pre-#8 image and database/files snapshot.
+The package decisions, regression checks, and rollback steps for both work items are already recorded in this change directory.
