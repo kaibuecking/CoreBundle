@@ -42,8 +42,8 @@
 
 ## 7. Operator And Owner Follow-Up (Not Performed Here)
 
-- [ ] 7.1 Fetch upstream `v5.0.6` in an authorized environment and complete the per-commit upstream classification (U1).
-  - blocked: No authorized upstream Forum checkout or network access is available; this workspace has only the `kaibuecking/corebundle` remote, no `v5.0.6` tag, no `.gitmodules`, and GitHub/network access is prohibited for this execution.
+- [x] 7.1 Fetch upstream `v5.0.6` in an authorized environment and complete the per-commit upstream classification (U1).
+  - evidence: upstream `con4gis/*` is now `Kuestenschmiede/*`; `Kuestenschmiede/ForumBundle` tag `v5.0.6` = `f125d30c` (2026-09-03), merge base with `customfeaturesV2` `9a61ac24`. All 11 Forum and 3 Core commits are classified per behaviour in `inventory.md` section 12: `8c1e000` upstreamed, `2a5324c` likely upstreamed, `f342b92`/`36954ac`/`e734e471` obsolete, the first-post cluster and the ticket-title/PN/notify behaviours retained, the `DELETED_USER` key change and the legacy PN auth obsolete, uploader/dialog relocation still relevant (`imgUpload.php` and `DialogHandler.js` exist in core `v8.0.26`), and the `C4GVersionProvider` guard not upstreamed. Upstream `v5.0.6` requires `con4gis/core ^8` and `contao/core-bundle ^5.3`.
 - [ ] 7.2 Run the anonymized-data checks and record aggregate results (U2–U4, U7).
   - blocked: No restored/anonymized production database or staging instance is provisioned; `mysql`, `mariadb`, `psql`, and `sqlite3` clients are all absent, so the data checks cannot run.
 - [ ] 7.3 Confirm production use of the custom PN endpoints and legacy Core uploader (U5, U6).
