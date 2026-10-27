@@ -49,6 +49,6 @@
 - [ ] 7.3 Confirm production use of the custom PN endpoints and legacy Core uploader (U5, U6).
   - blocked: Production access logs, endpoint traffic, and product-owner confirmation are not available in this execution environment.
 - [ ] 7.4 Decide D1–D10 and record them in the #3/#4 follow-up changes.
-  - blocked: Decisions D1–D10 require product-owner, backend-maintainer, and operator approval that cannot be supplied autonomously here.
+  - progress: D1–D10 are decided and recorded in `known-unknowns.md` section "Recorded Decisions (2026-10-27)". Remaining: transfer them into the #3/#4 follow-up changes when those are authored.
 - [ ] 7.5 Re-validate the port against a restored/anonymized database before any production cutover.
   - blocked: Requires a staging environment with a restored/anonymized database and an implemented port; this documentation-only change has no deployable port or authorized cutover target.

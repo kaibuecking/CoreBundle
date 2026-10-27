@@ -69,3 +69,23 @@ The unknowns are sufficiently resolved for #3/#4 when:
 - U6 and U10 are resolved or explicitly accepted as non-blocking with the reason recorded.
 - D1–D10 are decided and recorded in the follow-up change.
 - No production data, credentials, or attachment files have entered the repository.
+
+## Recorded Decisions (2026-10-27)
+
+Owner approvals were given while going through the open decisions one by one. Each decision below is
+the agreed direction; the verification column of the table above still applies.
+
+| ID | Decision | Rationale |
+| --- | --- | --- |
+| D1 | The Forum fork stays narrow on 5.x. The **Core fork is dropped** and upstream `con4gis/core ^8` is used directly. Upstream changes are not available to this project, so the `C4GVersionProvider` guard is not offered upstream: it is tolerated, because only the "C4G Bricks" backend view calls `getLatestVersion()`, and it becomes a two-line application composer patch only if that view actually warns. | The Core fork never renamed namespaces; its three commits are a package rename, two application-owned hunks and a two-line guard. A second Core package identity is not worth that. |
+| D2 | The personal-message service is **application-owned**: `contact`, `messages`, `markAll` and `getMessageCount` live in an application class on the public forum models behind an application route. `send` stays with the upstream controller. `privateChat.js` and `mod_login.html5` are pointed at the application route. | Both callers are application assets and the models are public; the bundle route stays untouched. |
+| D3 | First-post pinning stays **in the Forum fork**, query and renderer together. | The query is one `protected` helper method and the renderer lives inside the bundle module; an application subclass would duplicate module internals and break on upstream refactors. |
+| D4 | Presentation is **application-owned**: the existing application templates and CSS stay authoritative, and the seven fork labels move into new application language files. | The fork then carries logic only. Without the language files the labels would be lost in the port. |
+| D5 | Exactly **one** notification path: the NC `mail_new_pm` type, with the legacy `notifyRecipient` mail suppressed in the fork. Activation and suppression ship in the same release. | `notifyRecipient()` is `private` and cannot be overridden from the application; two active paths would duplicate mails. |
+| D6 | The legacy Core uploader and the dialog close icon are **dropped**. | The application uploads through Fine Uploader/Dropzone and references `imgUpload.php` nowhere; both upstream files still exist, so nothing has to be patched. A missing close icon is fixed as an application asset. |
+| D7 | Notification Center migration and activation are **operator-owned**, executed in a dedicated maintenance window after the code port, never inside this change. | The port crosses Contao 4.13 → 5.3 and NC 1 → 2; NC types are production data. See `operator-runbook.md`. |
+| D8 | **Retain all history**, no cutoff. Orphans are counted on the anonymized copy and **archived, not deleted**. | Irreversible losses outweigh the effort of maintaining a subset; archiving keeps the evidence. |
+| D9 | Keep upstream's `DISCUSSION` key; the fork's `DISCUSSIONS` rename is **not** ported. The two application modules switch to `['DISCUSSION']['DELETED_USER']` with a fallback. | The flat key those modules read today exists in neither the fork nor upstream, so deleted authors currently render empty. |
+| D10 | Keep the existing forum/member **group model** for the port; a permission redesign is a separate initiative. | `groups ^2.10` keeps the model and group id `6` is hardcoded in the application login template; a redesign would delay the major upgrade. |
+
+The version boundary those decisions imply is recorded in `operator-runbook.md`.
